@@ -1,6 +1,7 @@
 FROM rocker/geospatial:4.2.2 as builder
 
-LABEL maintainer = "couchbits GmbH <us@couchbits.com>"
+LABEL org.opencontainers.image.authors="clemens@couchbits.com"
+LABEL org.opencontainers.image.vendor="couchbits GmbH"
 
 WORKDIR /root/build
 # copy the cargo-agent-r to the image
