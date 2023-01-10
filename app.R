@@ -11,7 +11,7 @@ source("src/common/helper.R")
 source("src/analyzer/ctmm_telemetry_list.R")
 source("src/analyzer/move_move_stack.R")
 
-if (Sys.getenv(x = "PROD_ENV", FALSE) != TRUE) {
+if (Sys.getenv(x = "ENV", "dev") == "dev") {
   # override defaults if not in prod env
   source("src/common/local_dev.R")
 }
