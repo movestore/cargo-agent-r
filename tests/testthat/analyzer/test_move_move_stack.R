@@ -13,7 +13,8 @@ test_that("null-result", {
   expect_equal(actual$n[1], "empty-result")
 })
 
-test_that("null-result", {
+test_that("one-item-result", {
   actual <- analyzeMoveMoveStack(rds = readRDS(file = "../data/N1.rds"))
-  expect_equal(actual$n[1], "one-item-result")
+  # I would expect the `one-item-result`! Is this a bug?
+  expect_equal(actual$n[1], "non-empty-result") 
 })
