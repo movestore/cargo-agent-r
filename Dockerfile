@@ -26,7 +26,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean
 
 WORKDIR /root/app
-COPY --from=builder /root/build/ .
+COPY --from=builder /root/build/* ./
 RUN rm -rf ./tests
 
 ENV ENV=prod
