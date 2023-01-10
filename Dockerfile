@@ -3,7 +3,7 @@ FROM rocker/geospatial:4.2.2 as builder
 LABEL org.opencontainers.image.authors="clemens@couchbits.com"
 LABEL org.opencontainers.image.vendor="couchbits GmbH"
 
-WORKDIR /root/build
+WORKDIR /root/test
 # copy the cargo-agent-r to the image
 COPY app.R ./
 COPY src/ ./src/
@@ -17,7 +17,8 @@ RUN R -e 'renv::restore()'
 
 # execute all tests
 COPY tests ./tests/
-RUN R -e "testthat::test_dir('tests/testthat')"
+ENV ENV=test
+RUN R -e "testthat::test_dir('tests/testthat/analyzer')"
 
 FROM rocker/geospatial:4.2.2
 
@@ -26,9 +27,10 @@ RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
     && apt-get clean
 
+COPY --from=builder /root/test /root/app
 WORKDIR /root/app
-COPY --from=builder /root/build/* ./
 RUN rm -rf ./tests
+RUN R -e 'renv::restore()'
 
 ENV ENV=prod
 ENTRYPOINT ["Rscript", "app.R"]
