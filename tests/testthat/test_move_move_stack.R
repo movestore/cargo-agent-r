@@ -1,4 +1,4 @@
-source("../src/analyzer/move_move_stack.R", chdir = TRUE)
+source("../../src/analyzer/move_move_stack.R", chdir = TRUE)
 library(testthat)
 
 test_data <- readRDS(file = "./data/move_move_stack/input3_stork.rds")

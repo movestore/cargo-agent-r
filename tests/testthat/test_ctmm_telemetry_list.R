@@ -1,4 +1,4 @@
-source("../src/analyzer/ctmm_telemetry_list.R", chdir = TRUE)
+source("../../src/analyzer/ctmm_telemetry_list.R", chdir = TRUE)
 library(testthat)
 
 test_data <- readRDS(file = "./data/ctmm_telemetry_list/ctmm_telemetry_list.rds")
