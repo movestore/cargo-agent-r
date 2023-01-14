@@ -1,3 +1,4 @@
 # Cargo Agent R
 
-An analyzing app for MoveApps.
+The cargo agent is an integrated analysis sub-module for MoveApps. It is excecuted on the data output after each run of an App and provides the user with a quick overview of the output that has been created by an App. It is indicated by a green 'bobble' on the top-right corner of an App container and can be opened by clicking on it. Usually, it gives an overview of the number of animals, tracks and locations, the time interval, bounding box and attribute names. Depending on the output type of an App, these properties can differ. When a new IO type is requested for MoveApps for the first time, the person submitting it is required to provide cargo agent analysis code that produces a json overview of the most important properties of the data type, so that anyone using Apps with this IO type as output can quickly evaluate obtained results.
+
