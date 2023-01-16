@@ -121,7 +121,6 @@ mapMoveMoveStackOutput <- function(
 ) {
   list(
     n = n,
-    cargo_v = 3,
     positions_bounding_box = positions_bounding_box,
     projection = projection,
     sensor_types = sensor_types,
