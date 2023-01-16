@@ -71,7 +71,6 @@ mapCtmmTelemetryListOutput <- function(
 ) {
     list(
         n = n,
-        cargo_v = -10,
         animal_names = animal_names,
         timezone = timezone,
         projection = projection
