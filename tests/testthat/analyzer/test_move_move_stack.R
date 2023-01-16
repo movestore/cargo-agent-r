@@ -5,7 +5,13 @@ test_data <- readRDS(file = "../data/move_move_stack/input3_stork.rds")
 
 test_that("non-empty-result", {
   actual <- analyzeMoveMoveStack(rds = test_data)
-  expect_equal(actual$n[1], "non-empty-result")
+  expect_equal(analyzeMoveMoveStack(rds = test_data)$n[1], "non-empty-result")
+})
+
+test_that("animals", {
+  actual <- analyzeMoveMoveStack(rds = test_data)
+  expect_equal(actual$animals_total_number[1], 1)
+  expect_equal(actual$animal_names[1], "Prinzesschen")
 })
 
 test_that("null-result", {
