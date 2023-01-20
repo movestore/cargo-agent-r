@@ -8,7 +8,7 @@ analyzeMoveMoveStack <- function(rds) {
 
   tryCatch(
     {
-      if (length(rds)==0)
+      if (length(rds)==0) #can only be met if NULL input
       {
         # fallback for N=0
         log_debug("Analyzing for N=0")
@@ -36,17 +36,17 @@ analyzeMoveMoveStack <- function(rds) {
         # but this seems easier to generalise
         ids <- namesIndiv(rds)
         n <- NA
-        if (is(rds,'MoveStack'))
+        if (is(rds,'MoveStack')) #always true if not NULL
         {
-          #N>1
-          log_debug("Analyzing for N>1")
+          #N>=1
+          log_debug("Analyzing for N>=1")
           n <- "non-empty-result"
           rds_spl <- move::split(rds)
           id_posis <- foreach(rdsi = rds_spl, .combine=c) %do% {
             length(rdsi)
           }
         }
-        else
+        if (length(move::split(rds))==1)
         {
           #N=1
           log_debug("Analyzing for N=1")
