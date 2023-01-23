@@ -9,6 +9,7 @@ test_that("analyze one-item-result", {
   actual <- analyzeCtmmTelemetryList(rds = test_data)
   expect_equal(actual$n[1], "non-empty-result")
   expect_equal(actual$animals_total_number,3)
+  # expect_equal(actual$animals_total_number,length(test_data))
 })
 
 test_that("proj", {
@@ -35,7 +36,7 @@ test_that("one-result",{
 test_that("mix-with-empty-id",{
   actual <- analyzeCtmmTelemetryList(test)
   expect_equal(actual$n[1],"non-empty-result")
-  expect_equal(actual$animals_total_number,3)
+  expect_equal(actual$animals_total_number,3) # this 3 is hardcoded, just note for the future in case there is a problem
 })
 # remove individuals for which no locations are provided. need to discuss
 
