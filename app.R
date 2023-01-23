@@ -65,7 +65,7 @@ analyze <- function() {
           log_debug("analyzing the RDS for `ctmm::telemetry.list`...")
           writeResult(analyzeCtmmTelemetryList(rds = rds))
         } else {
-          log_warn("unexpected OUTPUT_TYPE {outputType}. Can not handle it.")
+          log_warn("unexpected OUTPUT_TYPE {output_type}. Can not handle it.")
           root <- list(n = NA)
           writeResult(root)
         }
