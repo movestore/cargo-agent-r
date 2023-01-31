@@ -10,6 +10,7 @@ log_threshold(DEBUG)
 source("src/common/helper.R")
 source("src/analyzer/ctmm_telemetry_list.R")
 source("src/analyzer/move_move_stack.R")
+source("src/analyzer/move2_mt.R")
 
 if (Sys.getenv(x = "ENV", "dev") == "dev") {
   # override defaults if not in prod env
@@ -64,6 +65,9 @@ analyze <- function() {
         } else if (output_type == "ctmm::telemetry.list") {
           log_debug("analyzing the RDS for `ctmm::telemetry.list`...")
           writeResult(analyzeCtmmTelemetryList(rds = rds))
+        } else if (output_type == "move2::mt") {
+          log_debug("analyzing the RDS for `move2::mt`...")
+          writeResult(analyzeMove2Mt(rds = rds))
         } else {
           log_warn("unexpected OUTPUT_TYPE {output_type}. Can not handle it.")
           root <- list(n = NA)
