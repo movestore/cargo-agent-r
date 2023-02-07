@@ -19,7 +19,7 @@ Provide a link to the original public repository site that documents your reques
 
 Please do not work on our master branch, but fork the repository and add files that are necessary to extent MoveApps by your requested IO type. After that submit a Pull-Request to this repository with your changes. See below the three files that are necessary: analyzer code, example data and unit tests.
 
-### 2. Add analyis code for the IO type overview
+### 2. Add analysis code for the IO type overview
 
 Location: `src/analyzer/{io_type_label}.R`
 
@@ -135,4 +135,4 @@ After you have created a pull request of our GitHub repository, our administrato
 
 ### 6. Request the new IO type at MoveApps
 
-With the pull request link from above, you are able to request the IO type on MoveApps. This can be done either via this link: ###not yet### or if you _initialize_ a new App at MoveApps and follow the link for _requesting a new IO type_. You need the information from _0. Plan your new MoveApps IO type_ and the link to your _Pull Request_.
+With the pull request link from above, you are able to request the IO type on MoveApps. This can be done during _initialization_ of a new App at MoveApps and following the link for _requesting a new IO type_. You need the information from _0. Plan your new MoveApps IO type_ and the link to your _Pull Request_.
