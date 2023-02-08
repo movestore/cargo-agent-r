@@ -3,7 +3,7 @@ library(move2)
 library(sf)
 
 # rds is `move2::mt`
-analyzeMove2Mt <- function(rds) {
+analyzeMove2MtLoc <- function(rds) {
   root <- NA
 
   tryCatch(
@@ -12,7 +12,7 @@ analyzeMove2Mt <- function(rds) {
         {
           # fallback for N=0
           log_debug("Analyzing for N=0")
-          root <- mapMove2MtOutput(
+          root <- mapMove2MtLocOutput(
             n = "empty-result",
             positions_bounding_box = rep(NA, 4),
             projection = NA,
@@ -63,7 +63,7 @@ analyzeMove2Mt <- function(rds) {
           unique_sensor_types <- "no sensor type data found"
         }
 
-        root <- mapMove2MtOutput(
+        root <- mapMove2MtLocOutput(
           n = n,
           positions_bounding_box = data.frame(matrix(st_bbox(rds), ncol = 2)), # row and col names differ, I kind of like the named vector more than the data frame as it is very clear what each element is
           projection = st_crs(rds)$input,
@@ -93,7 +93,7 @@ analyzeMove2Mt <- function(rds) {
   return(root)
 }
 
-mapMove2MtOutput <- function(
+mapMove2MtLocOutput <- function(
     n,
     positions_bounding_box = NA,
     projection = NA,
