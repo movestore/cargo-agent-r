@@ -65,9 +65,12 @@ analyze <- function() {
         } else if (output_type == "ctmm::telemetry.list") {
           log_debug("analyzing the RDS for `ctmm::telemetry.list`...")
           writeResult(analyzeCtmmTelemetryList(rds = rds))
-        } else if (output_type == "move2::mt") {
-          log_debug("analyzing the RDS for `move2::mt`...")
-          writeResult(analyzeMove2Mt(rds = rds))
+        } else if (output_type == "move2::move2_loc") {
+          log_debug("analyzing the RDS for `move2::move2_loc`...")
+          writeResult(analyzeMove2Move2_loc(rds = rds))
+        } else if (output_type == "move2::move2_nonloc") {
+          log_debug("analyzing the RDS for `move2::move2_nonloc`...")
+          writeResult(analyzeMove2Move2_nonloc(rds = rds))
         } else {
           log_warn("unexpected OUTPUT_TYPE {output_type}. Can not handle it.")
           root <- list(n = NA)
