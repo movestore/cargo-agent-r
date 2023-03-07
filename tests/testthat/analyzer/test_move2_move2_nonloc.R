@@ -2,7 +2,7 @@ source("../../../src/analyzer/move2_move2_nonloc.R", chdir = TRUE)
 #source("src/analyzer/move2_move2_nonloc.R", chdir = TRUE)
 library(testthat)
 
-test_data <- readRDS(file = "../data/move2_mt_loc/example_acc_2geese.rds")
+test_data <- readRDS(file = "../data/move2_move2_loc/example_acc_2geese.rds")
 #test_data <- readRDS(file = "tests/testthat/data/move2_move2_nonloc/example_acc_2geese.rds")
 
 test_that("non-empty-result", {
