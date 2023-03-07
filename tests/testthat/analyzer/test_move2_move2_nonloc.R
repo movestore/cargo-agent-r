@@ -9,7 +9,7 @@ test_that("non-empty-result", {
   actual <- analyzeMove2Move2_nonloc(rds = test_data)
   expect_equal(analyzeMove2Move2_nonloc(rds = test_data)$n[1], "non-empty-result")
 })
-Y>
+
 test_that("timestamps", {
   actual <- analyzeMove2Move2_nonloc(rds = test_data)
   expect_equal(length(actual$timestamps_range),2)
