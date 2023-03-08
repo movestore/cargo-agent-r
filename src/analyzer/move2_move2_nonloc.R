@@ -1,7 +1,6 @@
 library(logger)
 library(move2)
 library(sf)
-library(keyring)
 
 # rds is `move2::mt`
 analyzeMove2Move2_nonloc <- function(rds) {
@@ -36,7 +35,6 @@ analyzeMove2Move2_nonloc <- function(rds) {
         track_data <- mt_track_data(rds)
         names(track_data) <- make.names(names(track_data), allow_ = FALSE)
         
-
         if ("individual.local.identifier" %in% names(track_data)) {
           animals <- unique(track_data$individual.local.identifier)
         } else if ("local.identifier" %in% names(track_data)) {
@@ -55,7 +53,7 @@ analyzeMove2Move2_nonloc <- function(rds) {
         }
         rds_clean_names <- make.names(names(rds), allow_ = FALSE)
 
-        sensorinfo <- as.data.frame(movebank_retrieve("entity_type" = "tag_type"))
+        sensorinfo <- read.csv("../data/sensorinfo.csv",header=TRUE)
         
         if ("sensor.type" %in% rds_clean_names) {
           unique_sensor_types <- as.character(unique(rds[, rds_clean_names=="sensor.type"]))

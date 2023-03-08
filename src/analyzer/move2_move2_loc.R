@@ -1,7 +1,6 @@
 library(logger)
 library(move2)
 library(sf)
-library(keyring)
 
 # rds is `move2::mt`
 analyzeMove2Move2_loc <- function(rds) {
@@ -56,7 +55,7 @@ analyzeMove2Move2_loc <- function(rds) {
         }
         rds_clean_names <- make.names(names(rds), allow_ = FALSE)
 
-        sensorinfo <- as.data.frame(movebank_retrieve("entity_type" = "tag_type"))
+        sensorinfo <- read.csv("../data/sensorinfo.csv",header=TRUE)
         
         if ("sensor.type" %in% rds_clean_names) {
           unique_sensor_types <- as.character(unique(as.data.frame(rds)[, which(rds_clean_names=="sensor.type")]))
