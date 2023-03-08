@@ -1,6 +1,7 @@
 library(logger)
 library(move2)
 library(sf)
+library(keyring)
 
 # rds is `move2::mt`
 analyzeMove2Move2_loc <- function(rds) {
