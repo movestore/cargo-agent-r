@@ -7,7 +7,8 @@ test_data <- readRDS(file = "../data/move2_move2_nonloc/example_acc_2geese.rds")
 
 test_that("non-empty-result", {
   actual <- analyzeMove2Move2_nonloc(rds = test_data)
-  expect_equal(analyzeMove2Move2_nonloc(rds = test_data)$n[1], "non-empty-result")
+  expect_equal(actual$n[1], "non-empty-result")
+  expect_equal(actual$animals_total_number,2)
 })
 
 test_that("timestamps", {
@@ -48,4 +49,5 @@ test_that("null-result", {
   actual <- analyzeMove2Move2_nonloc(readRDS("../data/move2_move2_nonloc/example_empty.rds"))
   #actual <- analyzeMove2Move2_nonloc(readRDS("tests/testthat/data/move2_move2_nonloc/example_empty.rds"))
   expect_equal(actual$n[1], "empty-result")
+  expect_equal(actual$animals_total_number,0)
 })

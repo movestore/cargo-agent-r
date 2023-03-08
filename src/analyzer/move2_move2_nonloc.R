@@ -34,6 +34,7 @@ analyzeMove2Move2_nonloc <- function(rds) {
 
         track_data <- mt_track_data(rds)
         names(track_data) <- make.names(names(track_data), allow_ = FALSE)
+        
 
         if ("individual.local.identifier" %in% names(track_data)) {
           animals <- unique(track_data$individual.local.identifier)
@@ -53,11 +54,16 @@ analyzeMove2Move2_nonloc <- function(rds) {
         }
         rds_clean_names <- make.names(names(rds), allow_ = FALSE)
 
+        sensorinfo <- as.data.frame(movebank_retrieve("entity_type" = "tag_type"))
+        
         if ("sensor.type" %in% rds_clean_names) {
           unique_sensor_types <- as.character(unique(rds[, rds_clean_names=="sensor.type"]))
         } else if ("sensor.type" %in% names(track_data)) {
           unique_sensor_types <- as.character(unique(track_data$sensor.type))
-        } else {
+        } else if ("sensor.type.id" %in% rds_clean_names) {
+          unique_sensor_types <- as.character(sensorinfo$name[which(sensorinfo$id==unique(as.data.frame(rds)[, rds_clean_names=="sensor.type.id"]))])
+        }
+        else {
           unique_sensor_types <- "no sensor type data found"
         }
 
@@ -66,7 +72,7 @@ analyzeMove2Move2_nonloc <- function(rds) {
           sensor_types = unique_sensor_types,
           timestamps_range = as.character(range(mt_time(rds))), # Now timezones are not included in the printing
           events_total_number = nrow(rds), # maybe this is better named total number of events
-          animals_total_number = length(animals), # if no animal data is found this will have length 1 is that desirable of should it be NA
+          animals_total_number = length(animals), 
           animal_names = animals,
           animal_attributes = names(mt_track_data(rds)[, !sapply(track_data, function(x) all(is.na(x)))]),# I changed to mt_track_data as it contains the unmodified names
           taxa = taxa,

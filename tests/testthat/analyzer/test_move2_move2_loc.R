@@ -7,7 +7,8 @@ test_data <- readRDS(file = "../data/move2_move2_loc/input2_move2_whitefgeese.rd
 
 test_that("non-empty-result", {
   actual <- analyzeMove2Move2_loc(rds = test_data)
-  expect_equal(analyzeMove2Move2_loc(rds = test_data)$n[1], "non-empty-result")
+  expect_equal(actual$n[1], "non-empty-result")
+  expect_equal(actual$animals_total_number,3)
 })
 
 test_that("bbox", {
@@ -61,4 +62,5 @@ test_that("null-result", {
   actual <- analyzeMove2Move2_loc(readRDS("../data/move2_move2_loc/input0_move2_null.rds"))
   #actual <- analyzeMove2Move2_loc(readRDS("tests/testthat/data/move2_move2_loc/input0_move2_null.rds"))
   expect_equal(actual$n[1], "empty-result")
+  expect_equal(actual$animals_total_number,0)
 })
