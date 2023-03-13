@@ -8,9 +8,9 @@ Sys.setenv(tz = "UTC")
 log_threshold(DEBUG)
 
 source("src/common/helper.R")
-source("src/analyzer/ctmm_telemetry_list.R")
-source("src/analyzer/move_move_stack.R")
-source("src/analyzer/move2_mt.R")
+# source all analyzer files
+analyzer.sources = list.files("./src/analyzer/", pattern="*.R$", full.names = TRUE, ignore.case = TRUE)
+sapply(analyzer.sources, source)
 
 if (Sys.getenv(x = "ENV", "dev") == "dev") {
   # override defaults if not in prod env
