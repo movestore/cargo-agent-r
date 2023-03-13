@@ -58,21 +58,22 @@ analyze <- function() {
           file.remove(myResultFileName)
         }
         
-        output_type <- Sys.getenv(x = "OUTPUT_TYPE", "move::moveStack")
-        if (output_type == "move::moveStack") {
-          log_debug("analyzing the RDS for `move::moveStack`...")
+        output_type_label <- Sys.getenv(x = "OUTPUT_TYPE", "move::moveStack")
+        output_type_id <- Sys.getenv(x = "OUTPUT_TYPE_ID", "9ca32281-c4b0-465c-b235-42d9973278d7")
+        if (output_type_id == "9ca32281-c4b0-465c-b235-42d9973278d7") {
+          log_debug("analyzing the RDS for `{output_type_label}`...")
           writeResult(analyzeMoveMoveStack(rds = rds))
-        } else if (output_type == "ctmm::telemetry.list") {
-          log_debug("analyzing the RDS for `ctmm::telemetry.list`...")
+        } else if (output_type_id == "2e3268ca-f8af-4cac-bb4a-2ac1b134a53b") {
+          log_debug("analyzing the RDS for `{output_type_label}`...")
           writeResult(analyzeCtmmTelemetryList(rds = rds))
-        } else if (output_type == "move2::move2_loc") {
-          log_debug("analyzing the RDS for `move2::move2_loc`...")
+        } else if (output_type_id == "6597caa7-4ad3-4103-bbf3-4e6f7b03d1a4") {
+          log_debug("analyzing the RDS for `{output_type_label}`...")
           writeResult(analyzeMove2Move2_loc(rds = rds))
-        } else if (output_type == "move2::move2_nonloc") {
-          log_debug("analyzing the RDS for `move2::move2_nonloc`...")
+        } else if (output_type_id == "aa07bbd8-1dce-40fa-bcae-662cba5f4e9d") {
+          log_debug("analyzing the RDS for `{output_type_label}`...")
           writeResult(analyzeMove2Move2_nonloc(rds = rds))
         } else {
-          log_warn("unexpected OUTPUT_TYPE {output_type}. Can not handle it.")
+          log_warn("unexpected OUTPUT_TYPE {output_type_label} ({output_type_id}). Can not handle it.")
           root <- list(n = NA)
           writeResult(root)
         }
