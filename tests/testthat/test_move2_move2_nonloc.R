@@ -1,4 +1,4 @@
-source("../../src/analyzer/move2_move2_nonloc/move2_move2_nonloc.R", chdir = TRUE)
+source("../../src/analyzer/move2_move2_nonloc/move2_move2_nonloc.R")
 library(testthat)
 
 test_data <- readRDS(file = test_path("data", "move2_move2_nonloc", "example_acc_2geese.rds"))
