@@ -11,7 +11,7 @@ When a new IO type is requested for MoveApps for the first time, the person subm
 1. What is a good **title** for the IO type?
 Provide a sensible label for the IO type that you request. Please follow our convention to include the package name and class name like `move::moveStack` or `ctmm::telemetry.list`. This title is intendend for MoveApps-User.
 1. What is a good **slug** for the IO type? Your IO type must be referenced in a file-path-save way. For example a slug for the label `ctmm::telemetry.list` would be `ctmm_telementry_list`. This slug is intended for other App-Developer.
-1. What is the file-extension of this IO type?
+1. What is the **file-extension** of this IO type?
 Provide the extension of the file in which the new IO type can be transferred to the user during download. This file-extension is intended for MoveApp-User.
 
 Summary:
@@ -24,8 +24,8 @@ Summary:
 
 Please do not work on our `main` branch, but fork the repository and add files that are necessary to extent MoveApps by your requested IO type. After that submit a **Pull-Request** to this repository with your changes. See below the files that are necessary: 
 
-- analyzer code, 
-- example data,
+- analyzer code
+- example data
 - documentation
 - unit tests
 
