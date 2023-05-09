@@ -9,7 +9,7 @@ log_threshold(DEBUG)
 
 source("src/common/helper.R")
 # source all analyzer files
-analyzer.sources = list.files("./src/analyzer/", pattern="*.R$", full.names = TRUE, ignore.case = TRUE)
+analyzer.sources = list.files("./src/analyzer/", pattern="*.R$", full.names = TRUE, ignore.case = TRUE, recursive = TRUE)
 sapply(analyzer.sources, source)
 
 if (Sys.getenv(x = "ENV", "dev") == "dev") {

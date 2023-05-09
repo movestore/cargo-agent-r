@@ -6,24 +6,34 @@ When a new IO type is requested for MoveApps for the first time, the person subm
 
 ## How to request a new IO type?
 
-### 0. Plan your new MoveApps IO type
+### 1. Prepare your new MoveApps IO type
 
-1. What is a good name for the IO type?
-Provide a sensible label for the IO type that you request. Please follow our convention to include the package name and class name like `move::moveStack` or `ctmm::telemetry.list`.
+1. What is a good **title** for the IO type?
+Provide a sensible label for the IO type that you request. Please follow our convention to include the package name and class name like `move::moveStack` or `ctmm::telemetry.list`. This title is intendend for MoveApps-User.
+1. What is a good **slug** for the IO type? Your IO type must be referenced in a file-path-save way. For example a slug for the label `ctmm::telemetry.list` would be `ctmm_telementry_list`. This slug is intended for other App-Developer.
 1. What is the file-extension of this IO type?
-Provide the extension of the file in which the new IO type can be transferred to the user during download.
-1. Where is the IO type documented?
-Provide a link to the original public repository site that documents your requested IO type
+Provide the extension of the file in which the new IO type can be transferred to the user during download. This file-extension is intended for MoveApp-User.
 
-### 1. Fork this repository
+Summary:
 
-Please do not work on our master branch, but fork the repository and add files that are necessary to extent MoveApps by your requested IO type. After that submit a Pull-Request to this repository with your changes. See below the three files that are necessary: analyzer code, example data and unit tests.
+- Title (referenced in the following document as `{IO_TYPE_TITLE}`)
+- Slug (`{IO_TYPE_SLUG}`)
+- File-Extension (`{IO_TYPE_FILE_EXTENSION}`)
 
-### 2. Add analysis code for the IO type overview
+### 2. Fork this repository
 
-Location: `src/analyzer/{io_type_label}.R`
+Please do not work on our `main` branch, but fork the repository and add files that are necessary to extent MoveApps by your requested IO type. After that submit a **Pull-Request** to this repository with your changes. See below the files that are necessary: 
 
-Implement code to extract a useful list of overview properties of your new IO type. Copy an existing analysing function, rename, adapt and include it into the repository. Make sure that a proper list of useful information is created by your code (with useful keys). At the end this list will be serialized by `jsonlite` and presented to any MoveApps user that runs Apps of this new IO (output) type in a workflow.
+- analyzer code, 
+- example data,
+- documentation
+- unit tests
+
+### 3. Add analysis code for the IO type overview
+
+Location: `src/analyzer/{IO_TYPE_SLUG}/{IO_TYPE_SLUG}.R`
+
+Implement code to extract a useful list of overview properties of your new IO type in a new separate sub-folder below `src/analyzer`. Copy an existing analysing function, rename, adapt and include it into the repository. Make sure that a proper list of useful information is created by your code (with useful keys). At the end this list will be serialized by `jsonlite` and presented to any MoveApps user that runs Apps of this new IO (output) type in a workflow.
 
 <details>
     <summary>An example output of a (serialized json) list</summary>
@@ -117,22 +127,52 @@ Implement code to extract a useful list of overview properties of your new IO ty
     ```
 </details>
 
-### 3. Add test input data of the requested IO type
+### 4. Add documentation about the requested IO type
 
-Location: `tests/testthat/data/{io_type_label}/{io_type_label}.rds`
+Location: `src/analyzer/{IO_TYPE_SLUG}/README.md`
+
+Please document your IO type. If public available documentation for your IO type already exists feel free to provide a link to this document in the `README.md`
+
+### 5. Add test input data of the requested IO type
+
+Location: `tests/testthat/data/{IO_TYPE_SLUG}/{IO_TYPE_SLUG}.rds`
 
 Example data of a new IO type are useful to understand their uses and properties. Provide 2-3 example files that properly work with your cargo agent analyser code.
 
-### 4. Add unit tests
+### 6. Add unit tests
 
-Location: `tests/testthat/analyzer/{io_type_label}.R`
+Location: `tests/testthat/analyzer/{IO_TYPE_SLUG}/{IO_TYPE_SLUG}.R`
 
 Unit tests ensure that edge cases are considered sufficiently by open code like the cargo agent of a new IO type. This code needs to run properly, as it is used within the MoveApps system each time an App with the respective IO type as output is run. Please include unit tests, using the R package testthat, for all simple edge cases. If you are unsure, have a look at test files of other IO types.
 
-### 5. Create a pull request
+### 7. Integrate your new analyzer
+
+Location: `app.R` > function `analyze`.
+
+Please add a `else` branch to this function in order to call your analyzer code. As the analyzer will be choosen by the **ID** of the IO-Type this step can only be prepared at this moment. The MoveApps-Administrators will adjust your PR later as soon as you requested the IO type at MoveApps (see below).
+
+In the meantime please extend the function with an placeholder ID `"TODO"`
+
+```
+} else if (output_type_id == "6597caa7-4ad3-4103-bbf3-4e6f7b03d1a4") {
+    log_debug("analyzing the RDS for `{output_type_label}`...")
+    writeResult(analyzeMove2Move2_loc(rds = rds))
+# start of new IO type integration
+} else if (output_type_id == "TODO") {
+    log_debug("analyzing the RDS for `{output_type_label}`...")
+    writeResult(YOUR_NEW_ANALYER_FUNCTION_NAME(rds = rds))
+# end of new IO type integration
+} else {
+    log_warn("unexpected OUTPUT_TYPE {output_type_label} ({output_type_id}). Can not handle it.")
+    root <- list(n = NA)
+    writeResult(root)
+}
+```
+
+### 8. Create a pull request
 
 After you have created a pull request of our GitHub repository, our administrators will evaluate all files and get back to you with comments and/or approve the new IO type by merging your branch. Finally, our GitHub workflow will execute all tests and initialises to build a Docker image.
 
-### 6. Request the new IO type at MoveApps
+### 9. Request the new IO type at MoveApps
 
-With the pull request link from above, you are able to request the IO type on MoveApps. This can be done during _initialization_ of a new App at MoveApps and following the link for _requesting a new IO type_. You need the information from _0. Plan your new MoveApps IO type_ and the link to your _Pull Request_.
+With the pull request link from above, you are able to request the IO type on MoveApps. This can be done during _initialization_ of a new App at MoveApps and following the link for _requesting a new IO type_. You need the information from the _first step of this document (Preparation)_ and the link to your _Pull Request_.
