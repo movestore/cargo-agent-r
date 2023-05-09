@@ -135,13 +135,13 @@ Please document your IO type. If public available documentation for your IO type
 
 ### 5. Add test input data of the requested IO type
 
-Location: `tests/testthat/data/{IO_TYPE_SLUG}/{IO_TYPE_SLUG}.rds`
+Location: `tests/testthat/data/{IO_TYPE_SLUG}/some_file_name.rds`
 
 Example data of a new IO type are useful to understand their uses and properties. Provide 2-3 example files that properly work with your cargo agent analyser code.
 
 ### 6. Add unit tests
 
-Location: `tests/testthat/analyzer/{IO_TYPE_SLUG}/{IO_TYPE_SLUG}.R`
+Location: `tests/testthat/test_{IO_TYPE_SLUG}.R`
 
 Unit tests ensure that edge cases are considered sufficiently by open code like the cargo agent of a new IO type. This code needs to run properly, as it is used within the MoveApps system each time an App with the respective IO type as output is run. Please include unit tests, using the R package testthat, for all simple edge cases. If you are unsure, have a look at test files of other IO types.
 

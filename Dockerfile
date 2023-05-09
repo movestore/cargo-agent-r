@@ -18,7 +18,7 @@ RUN R -e 'renv::restore()'
 # execute all tests
 COPY tests ./tests/
 ENV ENV=test
-RUN R -e "testthat::test_dir('tests/testthat/analyzer')"
+RUN R -e "testthat::test_dir('tests/testthat')"
 
 FROM rocker/geospatial:4.2.2
 

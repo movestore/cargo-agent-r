@@ -1,8 +1,8 @@
-source("../../../src/analyzer/ctmm_telemetry_list.R", chdir = TRUE)
+source("../../src/analyzer/ctmm_telemetry_list/ctmm_telemetry_list.R")
 library(testthat)
 
-test_data <- readRDS(file = "../data/ctmm_telemetry_list/ctmm_telemetry_list_geese.rds")
-test0 <-  readRDS("../data/ctmm_telemetry_list/N0.rds")
+test_data <- readRDS(file = test_path("data", "ctmm_telemetry_list", "ctmm_telemetry_list_geese.rds"))
+test0 <-  readRDS(file = test_path("data", "ctmm_telemetry_list", "N0.rds"))
 test <- c(test_data,test0)
 
 test_that("analyze one-item-result", {
@@ -23,13 +23,13 @@ test_that("null-result",{
 })
 
 test_that("null-result",{
-  actual <- analyzeCtmmTelemetryList(rds = readRDS("../data/ctmm_telemetry_list/N0.rds"))
+  actual <- analyzeCtmmTelemetryList(rds = test0)
   expect_equal(actual$n[1],"empty-result")
 })
 # if no locations, all properties end up in a warning, thus better to return same as for NULL
 
 test_that("one-result",{
-  actual <- analyzeCtmmTelemetryList(rds = readRDS("../data/ctmm_telemetry_list/N1.rds"))
+  actual <- analyzeCtmmTelemetryList(rds = readRDS(file = test_path("data", "ctmm_telemetry_list", "N1.rds")))
   expect_equal(actual$n[1],"one-item-result")
 })
 

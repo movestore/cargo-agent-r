@@ -1,7 +1,7 @@
-source("../../../src/analyzer/move_move_stack.R", chdir = TRUE)
+source("../../src/analyzer/move_move_stack/move_move_stack.R")
 library(testthat)
 
-test_data <- readRDS(file = "../data/move_move_stack/input2_geese.rds")
+test_data <- readRDS(file = test_path("data", "move_move_stack", "input2_geese.rds"))
 
 test_that("non-empty-result", {
   actual <- analyzeMoveMoveStack(rds = test_data)
@@ -62,7 +62,7 @@ test_that("null-result", {
 #file N0.rds can never be received by an App, because it is not a moveStack, then it automatically becomes NULL
 
 test_that("one-item-result", {
-  actual <- analyzeMoveMoveStack(rds = readRDS(file = "../data/move_move_stack/N1.rds")) 
+  actual <- analyzeMoveMoveStack(readRDS(file = test_path("data", "move_move_stack", "N1.rds"))) 
   expect_equal(actual$n[1], "one-item-result") 
   expect_equal(actual$animals_total_number[1],1)
 })
