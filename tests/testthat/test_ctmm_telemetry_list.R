@@ -1,40 +1,45 @@
-source("../../src/analyzer/ctmm_telemetry_list/ctmm_telemetry_list.R")
-library(testthat)
+# system under test (SUT)
+io_type_slug = "ctmm_telemetry_list"
+sut(io_type_slug)
 
-test_data <- readRDS(file = test_path("data", "ctmm_telemetry_list", "ctmm_telemetry_list_geese.rds"))
-test0 <-  readRDS(file = test_path("data", "ctmm_telemetry_list", "N0.rds"))
+# test data
+
+test_data <- test_data(io_type_slug, "ctmm_telemetry_list_geese.rds")
+test0 <-  test_data(io_type_slug, "N0.rds")
 test <- c(test_data,test0)
 
+# unit tests
+
 test_that("analyze one-item-result", {
-  actual <- analyzeCtmmTelemetryList(rds = test_data)
+  actual <- analyze(rds = test_data)
   expect_equal(actual$n[1], "non-empty-result")
   expect_equal(actual$animals_total_number,3)
   # expect_equal(actual$animals_total_number,length(test_data))
 })
 
 test_that("proj", {
-  actual <- analyzeCtmmTelemetryList(rds = test_data)
+  actual <- analyze(rds = test_data)
   expect_equal(substring(actual$projection,1,5),"+proj")
 })
 
 test_that("null-result",{
-  actual <- analyzeCtmmTelemetryList(NULL)
+  actual <- analyze(NULL)
   expect_equal(actual$n[1],"empty-result")
 })
 
 test_that("null-result",{
-  actual <- analyzeCtmmTelemetryList(rds = test0)
+  actual <- analyze(rds = test0)
   expect_equal(actual$n[1],"empty-result")
 })
 # if no locations, all properties end up in a warning, thus better to return same as for NULL
 
 test_that("one-result",{
-  actual <- analyzeCtmmTelemetryList(rds = readRDS(file = test_path("data", "ctmm_telemetry_list", "N1.rds")))
+  actual <- analyze(rds = readRDS(file = test_path("data", "ctmm_telemetry_list", "N1.rds")))
   expect_equal(actual$n[1],"one-item-result")
 })
 
 test_that("mix-with-empty-id",{
-  actual <- analyzeCtmmTelemetryList(test)
+  actual <- analyze(test)
   expect_equal(actual$n[1],"non-empty-result")
   expect_equal(actual$animals_total_number,3) # this 3 is hardcoded, just note for the future in case there is a problem
 })

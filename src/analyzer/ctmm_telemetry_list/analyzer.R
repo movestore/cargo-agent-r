@@ -6,7 +6,7 @@ library(logger)
 # rds <- as.telemetry(mv)
 
 # rds is a telemetry.list 
-analyzeCtmmTelemetryList <- function(rds) {
+analyze <- function(rds) {
   root <- NA
   
   tryCatch(

@@ -8,9 +8,6 @@ Sys.setenv(tz = "UTC")
 log_threshold(DEBUG)
 
 source("src/common/helper.R")
-# source all analyzer files
-analyzer.sources = list.files("./src/analyzer/", pattern="*.R$", full.names = TRUE, ignore.case = TRUE, recursive = TRUE)
-sapply(analyzer.sources, source)
 
 if (Sys.getenv(x = "ENV", "dev") == "dev") {
   # override defaults if not in prod env
@@ -47,7 +44,7 @@ readRdsFile <- function() {
   return(rds)
 }
 
-analyze <- function() {
+invokeAnalyzer <- function() {
   tryCatch(
     {
       rds <- readRdsFile()
@@ -58,38 +55,32 @@ analyze <- function() {
           file.remove(myResultFileName)
         }
         
-        output_type_label <- Sys.getenv(x = "OUTPUT_TYPE", "move::moveStack")
-        output_type_id <- Sys.getenv(x = "OUTPUT_TYPE_ID", "9ca32281-c4b0-465c-b235-42d9973278d7")
-        if (output_type_id == "9ca32281-c4b0-465c-b235-42d9973278d7") {
-          log_debug("analyzing the RDS for `{output_type_label}`...")
-          writeResult(analyzeMoveMoveStack(rds = rds))
-        } else if (output_type_id == "2e3268ca-f8af-4cac-bb4a-2ac1b134a53b") {
-          log_debug("analyzing the RDS for `{output_type_label}`...")
-          writeResult(analyzeCtmmTelemetryList(rds = rds))
-        } else if (output_type_id == "6597caa7-4ad3-4103-bbf3-4e6f7b03d1a4") {
-          log_debug("analyzing the RDS for `{output_type_label}`...")
-          writeResult(analyzeMove2Move2_loc(rds = rds))
-        } else if (output_type_id == "aa07bbd8-1dce-40fa-bcae-662cba5f4e9d") {
-          log_debug("analyzing the RDS for `{output_type_label}`...")
-          writeResult(analyzeMove2Move2_nonloc(rds = rds))
-        } else {
-          log_warn("unexpected OUTPUT_TYPE {output_type_label} ({output_type_id}). Can not handle it.")
-          root <- list(n = NA)
-          writeResult(root)
-        }
+        # source the concrete analyzer file
+        output_type_slug <- Sys.getenv(x = "OUTPUT_TYPE_SLUG")
+        analyzer.source = file.path("src", "analyzer", output_type_slug, "analyzer.R")
+        source(analyzer.source)
+        # do it
+        log_debug("analyzing the RDS for `{output_type_slug}`...")
+        result <- analyze(rds = rds)
+        # persist it
+        writeResult(result)
       }
+    },
+    error = function(cond) {
+      log_error("I caught this error: '{cond}'")
+      root <- list(n = NA)
+      writeResult(root)
+    },
+    warning = function(cond) {
+      log_warn("I caught this warning: '{cond}'")
+      root <- list(n = NA)
+      writeResult(root)
+    },
+    finally = {
       now <- as.numeric(Sys.time())
       log_debug("writing the `lastAnalyzedMemoryFile`...")
       cat(now, file = lastAnalyzedMemoryFileName)
       log_info("Analysis complete.")
-    },
-    error = function(cond) {
-      log_error("I caught this error: '{cond}'")
-    },
-    warning = function(cond) {
-      log_warn("I caught this warning: '{cond}'")
-    },
-    finally = {
       if (file.exists(outputWorkingCopyFileName)) {
         # clean up
         log_debug("removing '{outputWorkingCopyFileName}'...")
@@ -125,14 +116,14 @@ watcher <- function() {
           memory <- .POSIXct(readChar(lastAnalyzedMemoryFileName, file.info(lastAnalyzedMemoryFileName)$size))
           if (change > as.numeric(memory)) {
             log_debug("output-file is newer than last analyzed [{change} > {memory}]")
-            analyze()
+            invokeAnalyzer()
           } else {
             log_debug("no newer output found, existing output is dated at {change}, last analyze run at {memory}. waiting..")
           }
         } else {
           # this script never analyzed a file, but the output exists -> so do it now!
           log_debug("output-file detected first time!")
-          analyze()
+          invokeAnalyzer()
         }
       } else {
         log_debug("app not in desired state. waiting..")

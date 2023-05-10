@@ -3,7 +3,7 @@ library(foreach)
 library(move)
 
 # rds is `move::moveStack`
-analyzeMoveMoveStack <- function(rds) {
+analyze <- function(rds) {
   root <- NA
 
   tryCatch(
