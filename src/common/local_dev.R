@@ -1,4 +1,4 @@
-Sys.setenv("OUTPUT_TYPE" = "move::moveStack")
+Sys.setenv("OUTPUT_TYPE_SLUG" = "move_move_stack")
 
 Sys.setenv("OUTPUT_FILE" = "./data/tmp/to_analyze.rds")
 Sys.setenv("OUTPUT_FILE_CARGO_AGENT_R" = "./data/tmp/cargo-agent-r_movement-metadata.json")
