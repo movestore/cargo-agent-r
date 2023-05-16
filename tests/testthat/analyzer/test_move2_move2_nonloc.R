@@ -2,13 +2,13 @@ source("../../../src/analyzer/move2_move2_nonloc.R", chdir = TRUE)
 #source("src/analyzer/move2_move2_nonloc.R", chdir = TRUE)
 library(testthat)
 
-test_data <- readRDS(file = "../data/move2_move2_nonloc/example_acc_2geese.rds")
-#test_data <- readRDS(file = "tests/testthat/data/move2_move2_nonloc/example_acc_2geese.rds")
+test_data <- readRDS(file = "../data/move2_move2_nonloc/example_nonloc_acc_burst_3geese.rds")
+#test_data <- readRDS(file = "tests/testthat/data/move2_move2_nonloc/example_lonloc_acc_burst_3geese.rds")
 
 test_that("non-empty-result", {
   actual <- analyzeMove2Move2_nonloc(rds = test_data)
   expect_equal(actual$n[1], "non-empty-result")
-  expect_equal(actual$animals_total_number,2)
+  expect_equal(actual$animals_total_number,3)
 })
 
 test_that("timestamps", {
@@ -46,8 +46,9 @@ test_that("tracks", {
 })
 
 test_that("null-result", {
-  actual <- analyzeMove2Move2_nonloc(readRDS("../data/move2_move2_nonloc/example_empty.rds"))
-  #actual <- analyzeMove2Move2_nonloc(readRDS("tests/testthat/data/move2_move2_nonloc/example_empty.rds"))
+  actual <- analyzeMove2Move2_nonloc(readRDS("../data/move2_move2_nonloc/example_nonloc_empty.rds"))
+  #actual <- analyzeMove2Move2_nonloc(readRDS("tests/testthat/data/move2_move2_nonloc/example_nonloc_empty.rds"))
   expect_equal(actual$n[1], "empty-result")
   expect_equal(actual$animals_total_number,0)
 })
+
