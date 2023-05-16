@@ -24,7 +24,7 @@ test_that("null-result",{
 
 
 test_that("one-result",{
-  actual <- analyzeCtmmModelWithData(rds = N1)
+  actual <- analyzeCtmmModelWithData(rds = test0)
   expect_equal(actual$n[1],"non-empty-result")
 })
 
@@ -33,7 +33,4 @@ test_that("mix-with-empty-id",{
   expect_equal(actual$n[1],"non-empty-result")
   expect_equal(actual$animals_total_number, 2) # this 2 is hardcoded, just note for the future in case there is a problem
 })
-
-
-
 
