@@ -5,6 +5,7 @@ sut(io_type_slug)
 
 test.data <- test_data(io_type_slug, "buffalo.rds")
 test0 <- test_data(io_type_slug, "N1.rds")
+test <- c(test.data, test0)
 
 test_that("analyze one-item-result", {
   actual <- analyzeCtmmModelWithData(rds = test.data)
