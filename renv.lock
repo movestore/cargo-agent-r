@@ -788,6 +788,20 @@
       "Hash": "68dd03d98a5efd1eb3012436de45ba83",
       "Requirements": []
     },
+    "purrr": {
+      "Package": "purrr",
+      "Version": "1.0.1",
+      "Source": "Repository",
+      "Repository": "RSPM",
+      "Hash": "d71c815267c640f17ddbf7f16144b4bb",
+      "Requirements": [
+        "cli",
+        "lifecycle",
+        "magrittr",
+        "rlang",
+        "vctrs"
+      ]
+    },
     "raster": {
       "Package": "raster",
       "Version": "3.6-11",

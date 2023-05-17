@@ -1,6 +1,6 @@
 # Cargo Agent R
 
-The cargo agent is an integrated analysis sub-module for MoveApps. It is excecuted on the data output after each run of an App and provides the user with a quick overview of the output that has been created by an App. It is indicated by a green 'bobble' on the top-right corner of an App container and can be opened by clicking on it. Usually, it gives an overview of the number of animals, tracks and locations, the time interval, bounding box and attribute names. Depending on the output type of an App, these properties can differ. 
+The cargo agent is an integrated analysis sub-module for MoveApps. It is executed on the data output after each run of an App and provides the user with a quick overview of the output that has been created by an App. It is indicated by a green 'bobble' on the top-right corner of an App container and can be opened by clicking on it. Usually, it gives an overview of the number of animals, tracks and locations, the time interval, bounding box and attribute names. Depending on the output type of an App, these properties can differ. 
 
 When a new IO type is requested for MoveApps for the first time, the person submitting it is required to provide cargo agent analysis code that produces a list of summary properties that MoveApps can print as a json overview of the most important properties of the data type, so that anyone using Apps with this IO type as output can quickly evaluate obtained results. Please follow the steps below to create it.
 
@@ -9,7 +9,7 @@ When a new IO type is requested for MoveApps for the first time, the person subm
 ### 1. Prepare your new MoveApps IO type
 
 1. What is a good **title** for the IO type?
-Provide a sensible label for the IO type that you request. Please follow our convention to include the package name and class name like `move::moveStack` or `ctmm::telemetry.list`. This title is intendend for MoveApps users.
+Provide a sensible label for the IO type that you request. Please follow our convention to include the package name and class name like `move::moveStack` or `ctmm::telemetry.list`. This title is intended for MoveApps users.
 1. What is a good **slug** for the IO type? Your IO type must be referenced in a file-path-save way. For example a slug for the label `ctmm::telemetry.list` could be `ctmm_telementry_list`. This slug is intended for other App developers and MoveApps-intern file paths.
 1. What is the **file-extension** of this IO type?
 Provide the extension of the file by which the new IO type can be transferred to the user during download. This file-extension is intended for MoveAppy users. In R, the recommended file extension is rds.
@@ -127,11 +127,18 @@ Implement code to extract a useful list of overview properties of your new IO ty
     ```
 </details>
 
+If your analyzer needs a **3rd party library** as dependency you must manage it with [`renv`](https://rstudio.github.io/renv/articles/renv.html) and commit the changed snapshot (`renv.lock`).
+
+1. install the package with `install.packages('lib')` (or any other package manager)
+1. (inspect the changed state with `renv::status()`)
+1. create a new snapshot with `renv::status()`
+1. commit the changed `renv.lock` file to the SCM
+
 ### 4. Add documentation about the requested IO type
 
 Location: `src/analyzer/{IO_TYPE_SLUG}/README.md`
 
-Please document your IO type. If publicly available documentation for your IO type already exist feel free to provide a link to this document in the `README.md`
+Please document your IO type. If publicly available documentation for your IO type already exist feel free to provide a link to this document in the `README.md`.
 
 ### 5. Add test input data of the requested IO type
 
