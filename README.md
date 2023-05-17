@@ -127,6 +127,13 @@ Implement code to extract a useful list of overview properties of your new IO ty
     ```
 </details>
 
+If your analyzer needs a **3rd party library** as dependency you must manage it with [`renv`](https://rstudio.github.io/renv/articles/renv.html) and commit the changed snapshot (`renv.lock`).
+
+1. install the package with `install.packages('lib')` (or any other package manager)
+1. (inspect the changed state with `renv::status()`)
+1. create a new snapshot with `renv::status()`
+1. commit the changed `renv.lock` file to the SCM
+
 ### 4. Add documentation about the requested IO type
 
 Location: `src/analyzer/{IO_TYPE_SLUG}/README.md`
