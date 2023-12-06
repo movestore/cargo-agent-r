@@ -5,7 +5,7 @@ library(logger)
 library(httr)
 library(benchmarkme)
 Sys.setenv(tz = "UTC")
-log_threshold(DEBUG)
+log_threshold(Sys.getenv(x = "LOG_LEVEL_CARGO_AGENT_R", "WARN"))
 
 source("src/common/helper.R")
 
