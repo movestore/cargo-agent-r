@@ -70,8 +70,8 @@ jobs:
 
       # Sign the image
       # https://github.com/sigstore/cosign-installer
-      - name: Sign the images with GitHub OIDC Token
-        env:
-          DIGEST: ${{ steps.build-and-push.outputs.digest }}
-          TAGS: ${{ steps.docker_meta.outputs.tags }}
-        run: cosign sign --yes "${TAGS}@${DIGEST}"
+      # - name: Sign the images with GitHub OIDC Token
+      #   env:
+      #     DIGEST: ${{ steps.build-and-push.outputs.digest }}
+      #     TAGS: ${{ steps.docker_meta.outputs.tags }}
+      #   run: cosign sign --yes "${TAGS}@${DIGEST}"
