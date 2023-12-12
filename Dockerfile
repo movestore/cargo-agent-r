@@ -15,7 +15,12 @@ COPY app.R ./
 COPY src/ ./src/
 # renv
 COPY renv.lock .Rprofile ./
-COPY renv/activate.R renv/settings.dcf ./renv/
+COPY renv/activate.R renv/settings.json ./renv/
+# change default location of cache to project folder
+# kudos: https://rstudio.github.io/renv/articles/docker.html#multi-stage-builds
+RUN mkdir renv/.cache
+ENV RENV_PATHS_CACHE renv/.cache
+# restore
 RUN R -e 'renv::restore()'
 
 # execute all tests
@@ -34,7 +39,6 @@ RUN apt-get update && apt-get install -y \
 COPY --from=builder /root/test /root/app
 WORKDIR /root/app
 RUN rm -rf ./tests
-RUN R -e 'renv::restore()'
 
 ENV ENV=prod
 ENTRYPOINT ["Rscript", "app.R"]
