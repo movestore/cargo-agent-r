@@ -3,6 +3,12 @@ FROM rocker/geospatial:4.3.2 as builder
 LABEL org.opencontainers.image.authors="clemens@couchbits.com"
 LABEL org.opencontainers.image.vendor="couchbits GmbH"
 
+# system libraries for cargo-agent-r dependencies
+RUN apt-get update && apt-get install -y \
+    libcurl4-openssl-dev \
+    libmpfr-dev \
+    && apt-get clean
+
 WORKDIR /root/test
 # copy the cargo-agent-r to the image
 COPY app.R ./
@@ -22,6 +28,7 @@ FROM rocker/geospatial:4.3.2
 # system libraries for cargo-agent-r dependencies
 RUN apt-get update && apt-get install -y \
     libcurl4-openssl-dev \
+    libmpfr-dev \
     && apt-get clean
 
 COPY --from=builder /root/test /root/app
