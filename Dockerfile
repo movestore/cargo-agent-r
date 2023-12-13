@@ -18,8 +18,9 @@ COPY renv.lock .Rprofile ./
 COPY renv/activate.R renv/settings.json ./renv/
 # change default location of cache to project folder
 # kudos: https://rstudio.github.io/renv/articles/docker.html#multi-stage-builds
-RUN mkdir renv/.cache
-ENV RENV_PATHS_CACHE renv/.cache
+# be careful - best use only an absolute directory as renv uses symlinks
+ENV RENV_PATHS_CACHE /opt/renv/.cache
+RUN mkdir -p $RENV_PATHS_CACHE
 # restore
 RUN R -e 'renv::restore()'
 
@@ -37,6 +38,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean
 
 COPY --from=builder /root/test /root/app
+COPY --from=builder $RENV_PATHS_CACHE $RENV_PATHS_CACHE
 WORKDIR /root/app
 RUN rm -rf ./tests
 
