@@ -29,13 +29,13 @@ analyze <- function(rds) {
             N_event_attributes = NA
           )
         } else {
-        ids <- as.character(unique(mt_track_id(rds)))
-        M_n <- "non-empty-result"
+          ids <- as.character(unique(mt_track_id(rds)))
+          M_n <- "non-empty-result"
 
-        id_posis <- table(mt_track_id(rds))
+          id_posis <- table(mt_track_id(rds))
 
-        track_data <- mt_track_data(rds)
-        names(track_data) <- make.names(names(track_data), allow_ = FALSE)
+          track_data <- mt_track_data(rds)
+          names(track_data) <- make.names(names(track_data), allow_ = FALSE)
 
         if ("individual.local.identifier" %in% names(track_data)) {
           animals <- unique(track_data$individual.local.identifier)
@@ -113,19 +113,19 @@ mapMove2Move2_locOutput <- function(
     K_number_positions_by_track = NA,
     N_event_attributes = NA) {
   list(
-    M_n = M_n,
-    A_positions_bounding_box = A_positions_bounding_box,
-    B_projection = B_projection,
-    C_sensor_types = C_sensor_types,
-    D_timestamps_range = D_timestamps_range,
-    E_positions_total_number = E_positions_total_number,
-    F_animals_total_number = F_animals_total_number,
-    G_animal_names = G_animal_names,
-    L_track_attributes = L_track_attributes,
-    H_taxa = H_taxa,
-    I_tracks_total_number = I_tracks_total_number,
-    J_track_names = J_track_names,
-    K_number_positions_by_track = K_number_positions_by_track,
-    N_event_attributes = N_event_attributes
+    list(positions_bounding_box = A_positions_bounding_box),
+    list(projection = B_projection),
+    list(sensor_types = C_sensor_types),
+    list(timestamps_range = D_timestamps_range),
+    list(positions_total_number = E_positions_total_number),
+    list(animals_total_number = F_animals_total_number),
+    list(animal_names = G_animal_names),
+    list(taxa = H_taxa),
+    list(tracks_total_number = I_tracks_total_number),
+    list(track_names = J_track_names),
+    list(number_positions_by_track = K_number_positions_by_track),
+    list(track_attributes = L_track_attributes),
+    list(event_attributes = N_event_attributes),
+    list(n = M_n)
   )
 }
