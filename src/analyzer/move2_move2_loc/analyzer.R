@@ -13,7 +13,6 @@ analyze <- function(rds) {
           # fallback for N=0
           log_debug("Analyzing for N=0")
           root <- mapMove2Move2_locOutput(
-            n = "empty-result",
             positions_bounding_box = rep(NA, 4),
             projection = NA,
             sensor_types = NA,
@@ -21,21 +20,22 @@ analyze <- function(rds) {
             positions_total_number = 0,
             animals_total_number = 0,
             animal_names = NA,
-            animal_attributes = NA,
             taxa = NA,
             tracks_total_number = 0,
             track_names = NA,
             number_positions_by_track = NA,
-            track_attributes = NA
+            track_attributes = NA,
+            event_attributes = NA,
+            n = "empty-result"
           )
         } else {
-        ids <- as.character(unique(mt_track_id(rds)))
-        n <- "non-empty-result"
+          ids <- as.character(unique(mt_track_id(rds)))
+          n <- "non-empty-result"
 
-        id_posis <- table(mt_track_id(rds))
+          id_posis <- table(mt_track_id(rds))
 
-        track_data <- mt_track_data(rds)
-        names(track_data) <- make.names(names(track_data), allow_ = FALSE)
+          track_data <- mt_track_data(rds)
+          names(track_data) <- make.names(names(track_data), allow_ = FALSE)
 
         if ("individual.local.identifier" %in% names(track_data)) {
           animals <- unique(track_data$individual.local.identifier)
@@ -68,7 +68,7 @@ analyze <- function(rds) {
         }
 
         root <- mapMove2Move2_locOutput(
-          n = n,
+          
           positions_bounding_box = data.frame(matrix(st_bbox(rds), ncol = 2)), # row and col names differ, I kind of like the named vector more than the data frame as it is very clear what each element is
           projection = st_crs(rds)$input,
           sensor_types = unique_sensor_types,
@@ -76,12 +76,13 @@ analyze <- function(rds) {
           positions_total_number = nrow(rds),
           animals_total_number = length(animals),
           animal_names = animals,
-          animal_attributes = names(mt_track_data(rds)[, !sapply(track_data, function(x) all(is.na(x)))]),# I changed to mt_track_data as it contains the unmodified names
           taxa = taxa,
           tracks_total_number = mt_n_tracks(rds),
           track_names = ids,
           number_positions_by_track = data.frame("animal" = names(id_posis), "positions_number" = id_posis),
-          track_attributes = names(rds[, !sapply(rds, function(x) all(is.na(x)))])
+          track_attributes = names(mt_track_data(rds)[, !sapply(track_data, function(x) all(is.na(x)))]),# I changed to mt_track_data as it contains the unmodified names
+          event_attributes = names(rds[, !sapply(rds, function(x) all(is.na(x)))]),
+          n = n
         )
       }
     },
@@ -98,7 +99,6 @@ analyze <- function(rds) {
 }
 
 mapMove2Move2_locOutput <- function(
-    n,
     positions_bounding_box = NA,
     projection = NA,
     sensor_types = NA,
@@ -106,26 +106,29 @@ mapMove2Move2_locOutput <- function(
     positions_total_number = NA,
     animals_total_number = NA,
     animal_names = NA,
-    animal_attributes = NA,
     taxa = NA,
     tracks_total_number = NA,
     track_names = NA,
     number_positions_by_track = NA,
-    track_attributes = NA) {
+    track_attributes = NA,
+    event_attributes = NA,
+    n
+) {
+  # use unnamed list on root level to control order in resulting JSON file
   list(
-    n = n,
-    positions_bounding_box = positions_bounding_box,
-    projection = projection,
-    sensor_types = sensor_types,
-    timestamps_range = timestamps_range,
-    positions_total_number = positions_total_number,
-    animals_total_number = animals_total_number,
-    animal_names = animal_names,
-    animal_attributes = animal_attributes,
-    taxa = taxa,
-    tracks_total_number = tracks_total_number,
-    track_names = track_names,
-    number_positions_by_track = number_positions_by_track,
-    track_attributes = track_attributes
+    list(positions_bounding_box = positions_bounding_box),          # 1
+    list(projection = projection),                                  # 2
+    list(sensor_types = sensor_types),
+    list(timestamps_range = timestamps_range),                      # 4
+    list(positions_total_number = positions_total_number),
+    list(animals_total_number = animals_total_number),              # 6
+    list(animal_names = animal_names),
+    list(taxa = taxa),                                              # 8
+    list(tracks_total_number = tracks_total_number),
+    list(track_names = track_names),                                #10
+    list(number_positions_by_track = number_positions_by_track),
+    list(track_attributes = track_attributes),                      #12
+    list(event_attributes = event_attributes),
+    list(n = n)                                                     #14
   )
 }

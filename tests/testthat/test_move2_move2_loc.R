@@ -9,26 +9,26 @@ test_data <- test_data(io_type_slug, "input2_move2_whitefgeese.rds")
 
 test_that("non-empty-result", {
   actual <- analyze(rds = test_data)
-  expect_equal(actual$n[1], "non-empty-result")
-  expect_equal(actual$animals_total_number,3)
+  expect_equal(actual[14][[1]]$n, "non-empty-result")
+  expect_equal(actual[6][[1]]$animals_total_number,3)
 })
 
 test_that("bbox", {
-  actual <- analyze(rds = test_data)
-  expect_true(is.numeric(actual$positions_bounding_box[1,1]))
-  expect_true(is.numeric(actual$positions_bounding_box[1,2]))
-  expect_true(is.numeric(actual$positions_bounding_box[2,1]))
-  expect_true(is.numeric(actual$positions_bounding_box[2,2]))
+  actual <- analyze(rds = test_data)[1][[1]]$positions_bounding_box
+  expect_true(is.numeric(actual[1,1]))
+  expect_true(is.numeric(actual[1,2]))
+  expect_true(is.numeric(actual[2,1]))
+  expect_true(is.numeric(actual[2,2]))
 })
 
 test_that("proj", {
   actual <- analyze(rds = test_data)
-  expect_equal(substring(actual$projection,1,5),"+proj")
+  expect_equal(substring(actual[2][[1]]$projection,1,5),"+proj")
 })
 
 test_that("timestamps", {
   actual <- analyze(rds = test_data)
-  expect_equal(length(actual$timestamps_range),2)
+  expect_equal(length(actual[4][[1]]$timestamps_range),2)
 })
 
 test_that("animals", {
@@ -37,31 +37,31 @@ test_that("animals", {
   names(iddata) <- make.names(names(iddata),allow_=FALSE)
   if (!is.null(iddata$individual.local.identifier)) animalNames <- iddata$individual.local.identifier else animalNames <- iddata$local.identifier
 
-  # expect_equal(actual$animals_total_number[1], 3)
-  expect_equal(actual$animals_total_number[1], mt_n_tracks(test_data))
-  # expect_equal(actual$animal_names[1], 742)
-  expect_equal(actual$animal_names[1], animalNames[1])
+  # expect_equal(actual[6][[1]]$animals_total_number[1], 3)
+  expect_equal(actual[6][[1]]$animals_total_number[1], mt_n_tracks(test_data))
+  # expect_equal(actual[7][[1]]$animal_names[1], 742)
+  expect_equal(actual[7][[1]]$animal_names[1], animalNames[1])
 })
 
 test_that("attribs", {
   actual <- analyze(rds = test_data)
-  expect_true(all(is.character(actual$animal_attributes)))
-  # expect_equal(length(actual$animal_attributes),5)
-  expect_equal(length(actual$animal_attributes),length(names(unique(mt_track_data(test_data))[,!sapply(mt_track_data(test_data), function(x) all(is.na(x)))])))
-  # expect_equal(length(actual$track_attributes),16)
-  expect_equal(length(actual$track_attributes),length(names(test_data[,!sapply(test_data, function(x) all(is.na(x)))])))
+  expect_true(all(is.character(actual[12][[1]]$track_attributes)))
+  # expect_equal(length(actual[12][[1]]$track_attributes),5)
+  expect_equal(length(actual[12][[1]]$track_attributes),length(names(unique(mt_track_data(test_data))[,!sapply(mt_track_data(test_data), function(x) all(is.na(x)))])))
+  # expect_equal(length(actual[13][[1]]$event_attributes),16)
+  expect_equal(length(actual[13][[1]]$event_attributes),length(names(test_data[,!sapply(test_data, function(x) all(is.na(x)))])))
 })
 
 test_that("tracks", {
   actual <- analyze(rds = test_data)
-  # expect_equal(actual$tracks_total_number[1], 3)
-  expect_equal(actual$tracks_total_number, length(as.character(unique(mt_track_id(test_data)))))
-  # expect_equal(actual$track_names[1], "X742")
-  expect_equal(actual$track_names[1], unique(as.character(mt_track_id(test_data)))[1])
+  # expect_equal(actual[9][[1]]$tracks_total_number[1], 3)
+  expect_equal(actual[9][[1]]$tracks_total_number, length(as.character(unique(mt_track_id(test_data)))))
+  # expect_equal(actual[10][[1]]$track_names[1], "X742")
+  expect_equal(actual[10][[1]]$track_names[1], unique(as.character(mt_track_id(test_data)))[1])
 })
 
 test_that("null-result", {
   actual <- analyze(test_data(io_type_slug, "input0_move2_null.rds"))
-  expect_equal(actual$n[1], "empty-result")
-  expect_equal(actual$animals_total_number,0)
+  expect_equal(actual[14][[1]]$n[1], "empty-result")
+  expect_equal(actual[6][[1]]$animals_total_number,0)
 })
