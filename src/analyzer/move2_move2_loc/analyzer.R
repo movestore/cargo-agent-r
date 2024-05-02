@@ -13,7 +13,6 @@ analyze <- function(rds) {
           # fallback for N=0
           log_debug("Analyzing for N=0")
           root <- mapMove2Move2_locOutput(
-            n = "empty-result",
             positions_bounding_box = rep(NA, 4),
             projection = NA,
             sensor_types = NA,
@@ -21,12 +20,13 @@ analyze <- function(rds) {
             positions_total_number = 0,
             animals_total_number = 0,
             animal_names = NA,
-            track_attributes = NA,
             taxa = NA,
             tracks_total_number = 0,
             track_names = NA,
             number_positions_by_track = NA,
-            event_attributes = NA
+            track_attributes = NA,
+            event_attributes = NA,
+            n = "empty-result"
           )
         } else {
           ids <- as.character(unique(mt_track_id(rds)))
@@ -68,7 +68,7 @@ analyze <- function(rds) {
         }
 
         root <- mapMove2Move2_locOutput(
-          n = n,
+          
           positions_bounding_box = data.frame(matrix(st_bbox(rds), ncol = 2)), # row and col names differ, I kind of like the named vector more than the data frame as it is very clear what each element is
           projection = st_crs(rds)$input,
           sensor_types = unique_sensor_types,
@@ -76,12 +76,13 @@ analyze <- function(rds) {
           positions_total_number = nrow(rds),
           animals_total_number = length(animals),
           animal_names = animals,
-          track_attributes = names(mt_track_data(rds)[, !sapply(track_data, function(x) all(is.na(x)))]),# I changed to mt_track_data as it contains the unmodified names
           taxa = taxa,
           tracks_total_number = mt_n_tracks(rds),
           track_names = ids,
           number_positions_by_track = data.frame("animal" = names(id_posis), "positions_number" = id_posis),
-          event_attributes = names(rds[, !sapply(rds, function(x) all(is.na(x)))])
+          track_attributes = names(mt_track_data(rds)[, !sapply(track_data, function(x) all(is.na(x)))]),# I changed to mt_track_data as it contains the unmodified names
+          event_attributes = names(rds[, !sapply(rds, function(x) all(is.na(x)))]),
+          n = n
         )
       }
     },
@@ -98,7 +99,6 @@ analyze <- function(rds) {
 }
 
 mapMove2Move2_locOutput <- function(
-    n,
     positions_bounding_box = NA,
     projection = NA,
     sensor_types = NA,
@@ -106,12 +106,13 @@ mapMove2Move2_locOutput <- function(
     positions_total_number = NA,
     animals_total_number = NA,
     animal_names = NA,
-    track_attributes = NA,
     taxa = NA,
     tracks_total_number = NA,
     track_names = NA,
     number_positions_by_track = NA,
-    event_attributes = NA
+    track_attributes = NA,
+    event_attributes = NA,
+    n
 ) {
   # use unnamed list on root level to control order in resulting JSON file
   list(
