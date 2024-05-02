@@ -1,4 +1,4 @@
-Sys.setenv("OUTPUT_TYPE_SLUG" = "move_move_stack")
+Sys.setenv("OUTPUT_TYPE_SLUG" = "move2_move2_loc")
 
 Sys.setenv("LOG_LEVEL_CARGO_AGENT_R" = "DEBUG")
 Sys.setenv("OUTPUT_FILE" = "./data/tmp/to_analyze.rds")

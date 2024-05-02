@@ -11,6 +11,8 @@ source("src/common/helper.R")
 
 if (Sys.getenv(x = "ENV", "dev") == "dev") {
   # override defaults if not in prod env
+  log_warn("running in ENV-MODE dev")
+  log_threshold(Sys.getenv(x = "LOG_LEVEL_CARGO_AGENT_R", "DEBUG"))
   source("src/common/local_dev.R")
 }
 
