@@ -116,14 +116,14 @@ mapMove2Move2_locOutput <- function(
 ) {
   # use unnamed list on root level to control order in resulting JSON file
   list(
-    list(positions_bounding_box = positions_bounding_box),          # 1
-    list(projection = projection),                                  # 2
-    list(sensor_types = sensor_types),
-    list(timestamps_range = timestamps_range),                      # 4
-    list(positions_total_number = positions_total_number),
-    list(animals_total_number = animals_total_number),              # 6
+    list(positions_total_number = positions_total_number),          # 1
+    list(timestamps_range = timestamps_range),
+    list(animals_total_number = animals_total_number),              # 3
     list(animal_names = animal_names),
-    list(taxa = taxa),                                              # 8
+    list(taxa = taxa),                                              # 5
+    list(sensor_types = sensor_types),
+    list(positions_bounding_box = positions_bounding_box),          # 7
+    list(projection = projection),                            
     list(tracks_total_number = tracks_total_number),
     list(track_names = track_names),                                #10
     list(number_positions_by_track = number_positions_by_track),
