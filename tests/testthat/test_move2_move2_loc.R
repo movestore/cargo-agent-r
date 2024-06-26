@@ -10,11 +10,11 @@ test_data <- test_data(io_type_slug, "input2_move2_whitefgeese.rds")
 test_that("non-empty-result", {
   actual <- analyze(rds = test_data)
   expect_equal(actual[14][[1]]$n, "non-empty-result")
-  expect_equal(actual[6][[1]]$animals_total_number,3)
+  expect_equal(actual[3][[1]]$animals_total_number,3)
 })
 
 test_that("bbox", {
-  actual <- analyze(rds = test_data)[1][[1]]$positions_bounding_box
+  actual <- analyze(rds = test_data)[7][[1]]$positions_bounding_box
   expect_true(is.numeric(actual[1,1]))
   expect_true(is.numeric(actual[1,2]))
   expect_true(is.numeric(actual[2,1]))
@@ -23,12 +23,12 @@ test_that("bbox", {
 
 test_that("proj", {
   actual <- analyze(rds = test_data)
-  expect_equal(substring(actual[2][[1]]$projection,1,5),"+proj")
+  expect_equal(substring(actual[8][[1]]$projection,1,5),"+proj")
 })
 
 test_that("timestamps", {
   actual <- analyze(rds = test_data)
-  expect_equal(length(actual[4][[1]]$timestamps_range),2)
+  expect_equal(length(actual[2][[1]]$timestamps_range),2)
 })
 
 test_that("animals", {
@@ -37,10 +37,10 @@ test_that("animals", {
   names(iddata) <- make.names(names(iddata),allow_=FALSE)
   if (!is.null(iddata$individual.local.identifier)) animalNames <- iddata$individual.local.identifier else animalNames <- iddata$local.identifier
 
-  # expect_equal(actual[6][[1]]$animals_total_number[1], 3)
-  expect_equal(actual[6][[1]]$animals_total_number[1], mt_n_tracks(test_data))
-  # expect_equal(actual[7][[1]]$animal_names[1], 742)
-  expect_equal(actual[7][[1]]$animal_names[1], animalNames[1])
+  # expect_equal(actual[3][[1]]$animals_total_number[1], 3)
+  expect_equal(actual[3][[1]]$animals_total_number[1], mt_n_tracks(test_data))
+  # expect_equal(actual[4][[1]]$animal_names[1], 742)
+  expect_equal(actual[4][[1]]$animal_names[1], animalNames[1])
 })
 
 test_that("attribs", {
@@ -63,5 +63,5 @@ test_that("tracks", {
 test_that("null-result", {
   actual <- analyze(test_data(io_type_slug, "input0_move2_null.rds"))
   expect_equal(actual[14][[1]]$n[1], "empty-result")
-  expect_equal(actual[6][[1]]$animals_total_number,0)
+  expect_equal(actual[3][[1]]$animals_total_number,0)
 })
