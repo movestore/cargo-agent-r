@@ -94,10 +94,10 @@ analyze <- function(rds) {
           timestamps_range = as.character(range(mt_time(rds))), # Now timezones are not included in the printing
           positions_total_number = nrow(rds),
           animals_total_number = length(animals),
-          animal_names = animals,
+          animal_names = sort(as.character(animals)),
           taxa = taxa,
           tracks_total_number = mt_n_tracks(rds),
-          track_names = ids,
+          track_names = sort(ids),
           number_positions_by_track = data.frame("animal" = names(id_posis), "positions_number" = as.vector(id_posis)),
           track_attributes = sort(names(mt_track_data(rds)[, !sapply(track_data, function(x) all(is.na(x)))])),# I changed to mt_track_data as it contains the unmodified names
           event_attributes = sort(names(rds[, !sapply(rds, function(x) all(is.na(x)))])),
