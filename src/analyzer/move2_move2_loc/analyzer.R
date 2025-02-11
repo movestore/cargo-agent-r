@@ -1,6 +1,10 @@
-library(logger)
-library(move2)
-library(sf)
+library("logger")
+library("move2")
+library("sf")
+library("dplyr")
+library("vctrs")
+library("purrr")
+library("rlang")
 
 # rds is `move2::mt`
 analyze <- function(rds) {
@@ -29,6 +33,21 @@ analyze <- function(rds) {
             n = "empty-result"
           )
         } else {
+          ## checking if there are columns in the track data that are a list. If yes, check if the content is the same, if yes remove list. If list columns are left over because content is different transform these into a character string (could be done as well as json, but think that average user will be more comfortable with text?)
+          ## unlisting track data columns of class list
+          if(any(sapply(mt_track_data(rds), is_bare_list))){
+            ## reduce all columns were entry is the same to one (so no list anymore)
+            rds <- rds |> mutate_track_data(across(
+              where( ~is_bare_list(.x) && all(purrr::map_lgl(.x, function(y) 1==length(unique(y)) ))), 
+              ~do.call(vctrs::vec_c,purrr::map(.x, head,1))))
+            if(any(sapply(mt_track_data(rds), is_bare_list))){
+              ## transform those that are still a list into a character string
+              rds <- rds |> mutate_track_data(across(
+                where( ~is_bare_list(.x) && any(purrr::map_lgl(.x, function(y) 1!=length(unique(y)) ))), 
+                ~unlist(purrr::map(.x, paste, collapse=","))))
+            }
+          }
+          
           ids <- as.character(unique(mt_track_id(rds)))
           n <- "non-empty-result"
 
@@ -79,7 +98,7 @@ analyze <- function(rds) {
           taxa = taxa,
           tracks_total_number = mt_n_tracks(rds),
           track_names = ids,
-          number_positions_by_track = data.frame("animal" = names(id_posis), "positions_number" = id_posis),
+          number_positions_by_track = data.frame("animal" = names(id_posis), "positions_number" = as.vector(id_posis)),
           track_attributes = names(mt_track_data(rds)[, !sapply(track_data, function(x) all(is.na(x)))]),# I changed to mt_track_data as it contains the unmodified names
           event_attributes = names(rds[, !sapply(rds, function(x) all(is.na(x)))]),
           n = n
