@@ -99,8 +99,8 @@ analyze <- function(rds) {
           tracks_total_number = mt_n_tracks(rds),
           track_names = ids,
           number_positions_by_track = data.frame("animal" = names(id_posis), "positions_number" = as.vector(id_posis)),
-          track_attributes = names(mt_track_data(rds)[, !sapply(track_data, function(x) all(is.na(x)))]),# I changed to mt_track_data as it contains the unmodified names
-          event_attributes = names(rds[, !sapply(rds, function(x) all(is.na(x)))]),
+          track_attributes = sort(names(mt_track_data(rds)[, !sapply(track_data, function(x) all(is.na(x)))])),# I changed to mt_track_data as it contains the unmodified names
+          event_attributes = sort(names(rds[, !sapply(rds, function(x) all(is.na(x)))])),
           n = n
         )
       }
