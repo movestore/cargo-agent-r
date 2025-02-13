@@ -37,9 +37,7 @@ test_that("animals", {
   names(iddata) <- make.names(names(iddata),allow_=FALSE)
   if (!is.null(iddata$individual.local.identifier)) animalNames <- iddata$individual.local.identifier else animalNames <- iddata$local.identifier
 
-  # expect_equal(actual[3][[1]]$animals_total_number[1], 3)
   expect_equal(actual[3][[1]]$animals_total_number[1], mt_n_tracks(test_data))
-  # expect_equal(actual[4][[1]]$animal_names[1], 742)
   expect_equal(actual[4][[1]]$animal_names[1], "742")
 })
 
@@ -55,7 +53,6 @@ test_that("event_attribs", {
   actual <- analyze(rds = test_data)
   expect_true(all(is.character(actual[12][[1]]$track_attributes)))
   expect_equal(length(actual[12][[1]]$track_attributes),50)
-  # expect_equal(length(actual[13][[1]]$event_attributes),16)
   expect_equal(length(actual[13][[1]]$event_attributes), 27)
 })
 
@@ -79,9 +76,7 @@ test_that("track_attribs should be sorted", {
 
 test_that("tracks", {
   actual <- analyze(rds = test_data)
-  # expect_equal(actual[9][[1]]$tracks_total_number[1], 3)
   expect_equal(actual[9][[1]]$tracks_total_number, length(as.character(unique(mt_track_id(test_data)))))
-  # expect_equal(actual[10][[1]]$track_names[1], "X742")
   expect_equal(actual[10][[1]]$track_names[1], "742")
 })
 
