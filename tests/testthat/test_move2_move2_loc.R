@@ -40,7 +40,7 @@ test_that("animals", {
   # expect_equal(actual[3][[1]]$animals_total_number[1], 3)
   expect_equal(actual[3][[1]]$animals_total_number[1], mt_n_tracks(test_data))
   # expect_equal(actual[4][[1]]$animal_names[1], 742)
-  expect_equal(actual[4][[1]]$animal_names[1], "742") ## animalNames[1] does not work because names in test_data are not sorted
+  expect_equal(actual[4][[1]]$animal_names[1], "742")
 })
 
 test_that("animal names should be sorted", {
@@ -55,9 +55,8 @@ test_that("event_attribs", {
   actual <- analyze(rds = test_data)
   expect_true(all(is.character(actual[12][[1]]$track_attributes)))
   expect_equal(length(actual[12][[1]]$track_attributes),50)
-  # expect_equal(length(actual[12][[1]]$track_attributes),length(names(unique(mt_track_data(test_data))[,!sapply(mt_track_data(test_data), function(x) all(is.na(x)))]))) ## cannot be done because list with NA is still present in test_data and cannot be removed easily here
   # expect_equal(length(actual[13][[1]]$event_attributes),16)
-  expect_equal(length(actual[13][[1]]$event_attributes),length(names(test_data[,!sapply(test_data, function(x) all(is.na(x)))])))
+  expect_equal(length(actual[13][[1]]$event_attributes), 27)
 })
 
 test_that("event_attribs should be sorted", {
@@ -83,7 +82,7 @@ test_that("tracks", {
   # expect_equal(actual[9][[1]]$tracks_total_number[1], 3)
   expect_equal(actual[9][[1]]$tracks_total_number, length(as.character(unique(mt_track_id(test_data)))))
   # expect_equal(actual[10][[1]]$track_names[1], "X742")
-  expect_equal(actual[10][[1]]$track_names[1], "742") # unique(as.character(mt_track_id(test_data)))[1]) does not work because test_data are not sorted
+  expect_equal(actual[10][[1]]$track_names[1], "742")
 })
 
 test_that("track names should be sorted", {

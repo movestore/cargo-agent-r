@@ -73,8 +73,6 @@ analyze <- function(rds) {
           taxa <- as.character(unique(track_data$individual.taxon.canonical.name))
         } else if ("taxon.canonical.name" %in% names(track_data)) {
           taxa <- as.character(unique(track_data$taxon.canonical.name))
-        # } else if ("taxon.ids" %in% names(track_data)) {
-        #   taxa <- as.character(unique(track_data$taxon.ids))
         } else {
           taxa <- "no appropriate taxa names available"
         }
