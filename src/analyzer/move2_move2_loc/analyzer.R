@@ -38,15 +38,19 @@ analyze <- function(rds) {
           if(any(sapply(mt_track_data(rds), is_bare_list))){
             ## reduce all columns were entry is the same to one (so no list anymore)
             rds <- rds |> mutate_track_data(across(
-              where( ~is_bare_list(.x) && all(purrr::map_lgl(.x, function(y) 1==length(unique(y)) ))), 
+              where( ~is_bare_list(.x) && all(purrr::map_lgl(.x, function(y) 1==length(unique(y)) ))),
               ~do.call(vctrs::vec_c,purrr::map(.x, head,1))))
             if(any(sapply(mt_track_data(rds), is_bare_list))){
               ## transform those that are still a list into a character string
               rds <- rds |> mutate_track_data(across(
-                where( ~is_bare_list(.x) && any(purrr::map_lgl(.x, function(y) 1!=length(unique(y)) ))), 
+                where( ~is_bare_list(.x) && any(purrr::map_lgl(.x, function(y) 1!=length(unique(y)) ))),
                 ~unlist(purrr::map(.x, paste, collapse=","))))
             }
           }
+          
+          if(is.factor(mt_track_id(rds))){
+            mt_track_id(rds) <- droplevels(mt_track_id(rds))
+            }
           
           ids <- as.character(unique(mt_track_id(rds)))
           n <- "non-empty-result"
@@ -69,6 +73,8 @@ analyze <- function(rds) {
           taxa <- as.character(unique(track_data$individual.taxon.canonical.name))
         } else if ("taxon.canonical.name" %in% names(track_data)) {
           taxa <- as.character(unique(track_data$taxon.canonical.name))
+        # } else if ("taxon.ids" %in% names(track_data)) {
+        #   taxa <- as.character(unique(track_data$taxon.ids))
         } else {
           taxa <- "no appropriate taxa names available"
         }
