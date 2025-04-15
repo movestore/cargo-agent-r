@@ -78,8 +78,8 @@ analyze <- function(rds) {
         }
         rds_clean_names <- make.names(names(rds), allow_ = FALSE)
 
-        sensorinfo <- data.frame("id"=c(397, 653, 673, 82798, 2365682, 2365683, 3886361, 7842954, 9301403, 77740391, 77740402, 819073350, 914097241, 1239574236, 1297673380, 2206221896, 2299894820, 2645090675),"name"=c("Bird Ring", "GPS", "Radio Transmitter", "Argos Doppler Shift", "Natural Mark", "Acceleration", "Solar Geolocator", "Accessory Measurements", "Solar Geolocator Raw", "Barometer", "Magnetometer", "Orientation", "Solar Geolocator Twilight", "Acoustic Telemetry", "Gyroscope", "Heart Rate", "Sigfox Geolocation", "Proximity"))
-        
+        sensorinfo <- move2:::movebank_tag_type_table[,c("id","name")] |> dplyr::mutate(name=as.character(name)) |> as.data.frame()
+                      
         if ("sensor.type" %in% rds_clean_names) {
           unique_sensor_types <- as.character(unique(as.data.frame(rds)[, which(rds_clean_names=="sensor.type")]))
         } else if ("sensor.type" %in% names(track_data)) {
