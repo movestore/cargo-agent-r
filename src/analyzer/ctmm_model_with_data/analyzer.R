@@ -5,8 +5,8 @@ library(logger)
 # rds <- readRDS("tests/testthat/data/ctmm_model_with_data/buffalo.rds")
 # rds <- N1 <- readRDS("tests/testthat/data/ctmm_model_with_data/N1.rds")
 
-# rds is a telemetry.list 
-analyzeCtmmModelWithData <- function(rds) {
+# rds is a named list: model (fitted ctmm models) and data (telemetry objects)
+analyze <- function(rds) {
   
   root <- NA
   tryCatch({
@@ -15,7 +15,7 @@ analyzeCtmmModelWithData <- function(rds) {
     # 1. A list of fitted ctmm models
     # 2. A list of telemetry objects
     
-    if (is.null(rds)) {
+    if (is.null(rds) || length(rds$data) == 0) {
       log_debug("Analyzing for N = 0")
       n <- "empty-result"
       animals_total_number <- NA
@@ -23,9 +23,9 @@ analyzeCtmmModelWithData <- function(rds) {
       tz <- NA
       prj <- NA
       model <- NA
-    } else if (length(rds$data) >= 1) {
-      #N>1
-      log_debug("Analyzing for N>1")
+    } else {
+      # N >= 1
+      log_debug("Analyzing for N >= 1")
       n <- "non-empty-result"
       animals_total_number <- length(rds$data)
       animal.name <- map_chr(rds$data, ~ slot(.x, "info")$identity) |> unname()
@@ -36,7 +36,7 @@ analyzeCtmmModelWithData <- function(rds) {
     
     root <- mapCtmmModelWithDataOutput(
       n = n,
-      animals_total_number <- animals_total_number,
+      animals_total_number = animals_total_number,
       animal_names = animal.name,
       timezone = tz,
       projection = prj,
