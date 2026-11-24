@@ -38,7 +38,7 @@ analyze <- function(rds) {
     
     root <- mapCtmmModelWithUDOutput(
       n = n,
-      animals_total_number <- animals_total_number,
+      animals_total_number = animals_total_number,
       animal_names = animal.name,
       timezone = tz,
       projection = prj,
