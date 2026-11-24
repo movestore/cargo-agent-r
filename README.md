@@ -33,7 +33,7 @@ Please do not work on our `main` branch, but fork the repository and add files t
 
 Location: `src/analyzer/{IO_TYPE_SLUG}/analyzer.R`
 
-Implement code to extract a useful list of overview properties of your new IO type in a new, separate sub-folder below `src/analyzer`. Copy an existing analyzer.R function (from another, similar IO type), rename, adapt and include it into the repository. Make sure that a proper list of useful information is created by your code (with useful keys). At the end, this list will be serialized by `jsonlite` and presented to any MoveApps user that runs Apps of this new IO (output) type in a workflow.
+Implement code to extract a useful list of overview properties of your new IO type in a new, separate sub-folder below `src/analyzer`. Copy an existing analyzer.R function (from another, similar IO type), rename, adapt and include it into the repository. Make sure that a proper list of useful information is created by your code (with useful keys). The analyzer's main function must be called `analyze()`. At the end, this list will be serialized by `jsonlite` and presented to any MoveApps user that runs Apps of this new IO (output) type in a workflow.
 
 <details>
     <summary>An example output of a (serialized json) list</summary>
