@@ -15,7 +15,7 @@ analyze <- function(rds) {
     # 1. A list of fitted ctmm models
     # 2. A list of telemetry objects
     
-    if (is.null(rds)) {
+    if (is.null(rds) || length(rds$data) == 0) {
       log_debug("Analyzing for N = 0")
       n <- "empty-result"
       animals_total_number <- NA
@@ -24,9 +24,9 @@ analyze <- function(rds) {
       prj <- NA
       model <- NA
       uds <- NA
-    } else if (length(rds$data) >= 1) {
-      #N>1
-      log_debug("Analyzing for N>1")
+    } else {
+      # N >= 1
+      log_debug("Analyzing for N >= 1")
       n <- "non-empty-result"
       animals_total_number <- length(rds$data)
       animal.name <- map_chr(rds$data, ~ slot(.x, "info")$identity) |> unname()
