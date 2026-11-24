@@ -5,7 +5,7 @@ library(logger)
 # rds <- readRDS("tests/testthat/data/ctmm_model_with_data/buffalo.rds")
 # rds <- N1 <- readRDS("tests/testthat/data/ctmm_model_with_data/N1.rds")
 
-# rds is a telemetry.list 
+# rds is a named list: model (fitted ctmm models) and data (telemetry objects)
 analyze <- function(rds) {
   
   root <- NA
