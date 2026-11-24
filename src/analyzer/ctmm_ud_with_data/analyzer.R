@@ -6,7 +6,7 @@ library(logger)
 # rds <- N1 <- readRDS("tests/testthat/data/ctmm_ud_with_data/N1.rds")
 
 # rds is a telemetry.list 
-analyzeCtmmUDWithData <- function(rds) {
+analyze <- function(rds) {
   
   root <- NA
   tryCatch({
